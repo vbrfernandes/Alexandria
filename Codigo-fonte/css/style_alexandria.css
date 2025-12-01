@@ -1,0 +1,665 @@
+/* =========================================
+   VARIAVEIS DE CORES
+   ========================================= */
+:root {
+    --bg-page: #EAEAEA;          /* Fundo cinza claro da página */
+    --blue-dark: #163445;        /* Azul escuro da lateral esquerda/nav */
+    --beige-card: #F2ECD9;       /* Bege do fundo central */
+    --beige-header: #DCCBA6;     /* Bege escuro do header da busca */
+    --beige-row-odd: #DCCBA6;    /* Linha ímpar */
+    --beige-row-even: #E8DUB6;   /* Linha par (fallback) */
+    --beige-row-even-hex: #E6D9BC; /* Linha par corrigida */
+    --gold-btn: #C49A50;         /* Dourado dos botões */
+    --text-dark: #333333;
+    --text-white: #FFFFFF;
+    --input-bg: #F0F0F0;
+    --border-radius-primary: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =========================================
+   HEADER & NAV
+   ========================================= */
+header {
+    background-color: var(--bg-page);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logo {
+    margin-bottom: 15px;
+}
+
+#logoimg {
+    width: 200px;
+    height: auto;
+}
+
+/* Menu Azul */
+.menu {
+    width: 100%;
+    background-color: var(--blue-dark);
+    padding: 15px 0;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 5%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.navBar {
+    display: flex;
+    gap: 30px;
+}
+
+.itenMenu {
+    color: var(--text-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+
+.itenMenu:hover {
+    opacity: 0.8;
+}
+
+/* =========================================
+   LAYOUT PRINCIPAL
+   ========================================= */
+main {
+    display: flex;
+    width: 100%;
+    flex: 1; /* Ocupa a altura restante */
+}
+
+/* Container que segura as 3 colunas */
+.conteudoPrincipal {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: stretch; /* Estica as colunas para terem a mesma altura */
+}
+
+/* --- COLUNA 1: ESQUERDA (Cadastro) --- */
+section {
+    width: 320px; /* Largura fixa */
+    background-color: var(--blue-dark);
+    color: var(--text-white);
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0; /* Impede encolhimento */
+}
+
+.tituloCadastroDeLivros {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+form.cadastroLivros {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo unificado para Input e Select */
+form input,
+form select,
+.codigo input,
+.codigo select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: var(--border-radius-primary);
+    background-color: var(--input-bg);
+    color: var(--text-dark);
+    text-align: center; /* Centraliza texto no input */
+    text-align-last: center; /* Centraliza texto no select */
+    font-size: 0.85rem;
+    outline: none;
+    appearance: none; /* Remove seta padrão feia do navegador */
+    -webkit-appearance: none;
+}
+
+/* Pequeno hack para placeholder do input ficar centralizado visualmente */
+form input::placeholder {
+    color: #888;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.codigo {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.codigo p {
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #ccc;
+}
+
+/* Botões Gerais */
+button {
+    background-color: var(--gold-btn);
+    color: var(--text-dark);
+    font-weight: 700;
+    border: none;
+    border-radius: var(--border-radius-primary);
+    padding: 12px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    width: 100%;
+    margin-top: 10px;
+    transition: filter 0.2s, transform 0.1s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    filter: brightness(1.1);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#cadastrarLivro {
+    margin-top: 30px;
+    padding: 15px;
+    font-size: 0.9rem;
+}
+
+/* --- COLUNA 2: CENTRO (Busca e Tabela) --- */
+.boxTabela {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Estica os filhos */
+    background-color: var(--bg-page);
+}
+
+/* O "Cartão" da tabela */
+.boxTabela > div:last-child {
+    width: 100%;
+}
+
+.barraPesquisar {
+    background-color: var(--beige-header);
+    width: 100%;
+    padding: 15px 25px;
+    border-radius: var(--border-radius-primary) var(--border-radius-primary) 0 0;
+    display: flex;
+    align-items: center;
+}
+
+.barraPesquisar input {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    color: var(--text-dark);
+    width: 100%;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.barraPesquisar input::placeholder {
+    color: #444;
+    text-align: left;
+}
+
+#iconePesquisar {
+    width: 20px;
+    margin-right: 15px;
+    opacity: 0.6;
+}
+
+/* Tabela e Wrapper do fundo bege */
+#tabelaLivros {
+    width: 100%; 
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: var(--beige-card);
+    border-radius: 0; 
+    padding: 20px;
+}
+
+#tabelaLivros th, 
+#tabelaLivros td {
+    width: 25%; /* Divide colunas igualmente */
+}
+
+#cabecaTablea tr th {
+    background-color: #FFFFFF;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 5px solid var(--beige-card);
+}
+
+/* Arredondamento do Header da Tabela */
+#cabecaTablea th:first-child { border-radius: 10px 0 0 10px; }
+#cabecaTablea th:last-child { border-radius: 0 10px 10px 0; }
+
+#corpoTabela tr {
+    font-size: 0.9rem;
+}
+
+/* Cores Alternadas (Zebra) */
+#corpoTabela tr:nth-child(odd) td {
+    background-color: var(--beige-row-odd);
+}
+
+#corpoTabela tr:nth-child(even) td {
+    background-color: var(--beige-row-even-hex);
+}
+
+#corpoTabela td {
+    padding: 12px;
+    text-align: center;
+    color: #333;
+    border-top: 5px solid var(--beige-card);
+}
+
+/* Arredondamento das Linhas do Corpo */
+#corpoTabela tr td:first-child { 
+    border-radius: 10px 0 0 10px; 
+    text-align: left; 
+    padding-left: 20px;
+    font-weight: bold;
+}
+#corpoTabela tr td:last-child { 
+    border-radius: 0 10px 10px 0; 
+}
+
+/* Cabeçalhos clicáveis */
+.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.sortable:hover {
+    background-color: #f0f0f0 !important;
+    color: var(--gold-btn);
+}
+
+/* Link do Livro na Tabela */
+.link-livro {
+    color: var(--blue-dark);
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.link-livro:hover {
+    color: var(--gold-btn);
+    text-decoration: underline;
+}
+
+/* Título Descartado na Tabela */
+.titulo-descartado {
+    color: red !important;
+    font-weight: bold;
+}
+
+/* Footer da Tabela */
+.footer-tabela {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--beige-card);
+    border-radius: 0 0 var(--border-radius-primary) var(--border-radius-primary);
+}
+
+#btnMostrarTodos {
+    width: auto;
+    padding: 10px 30px;
+    background-color: var(--blue-dark);
+    color: white;
+    margin-top: 0;
+}
+
+#btnMostrarTodos:hover {
+    background-color: #2a5a75;
+}
+
+.contador-texto {
+    margin-top: 10px; 
+    font-size: 0.8rem; 
+    color: #666;
+}
+
+/* --- COLUNA 3: DIREITA (Grupos) --- */
+aside.grupos {
+    width: 280px;
+    background-color: #F8F8F8;
+    border-left: 1px solid #ddd;
+    flex-shrink: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+aside h2 {
+    font-size: 1rem;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.listaGrupos ul, 
+.listaSubgrupos ul {
+    list-style: none;
+    margin-bottom: 20px;
+    padding-left: 5px;
+}
+
+.listaGrupos li,
+.listaSubgrupos li {
+    padding: 6px 0;
+    color: #555;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.listaGrupos li:hover,
+.listaSubgrupos li:hover {
+    color: var(--gold-btn);
+    font-weight: bold;
+}
+
+/* Botões Laterais */
+aside button {
+    width: auto;
+    background-color: transparent;
+    border: 1px solid var(--gold-btn);
+    color: var(--text-dark);
+    font-size: 0.7rem;
+    padding: 8px 15px;
+    margin-bottom: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+aside button:hover {
+    background-color: var(--gold-btn);
+    color: white;
+}
+
+/* Subgrupos */
+.divSubGrupos h4 {
+    color: var(--blue-dark);
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+}
+
+/* Itens da lista lateral */
+.item-lista-com-delete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.item-clicavel {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.item-clicavel:hover {
+    color: var(--gold-btn);
+    text-decoration: underline;
+}
+
+/* Botão Excluir (X) da lista */
+.btn-excluir {
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0 5px;
+    transition: 0.2s;
+    width: auto; /* Override do botão genérico */
+    box-shadow: none;
+    margin-top: 0;
+}
+
+.btn-excluir:hover {
+    color: #cc0000;
+    transform: scale(1.2);
+    filter: none; /* Override */
+}
+
+/* =========================================
+   MODAIS
+   ========================================= */
+#fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+}
+
+.modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90%;
+    background-color: #fff;
+    padding: 1.2rem;
+    border-radius: 10px;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    /* --- NOVAS PROPRIEDADES PARA SCROLL --- */
+    max-height: 90vh; /* Limita a altura do modal a 90% da altura da tela */
+    overflow-y: auto; /* Cria a barra de rolagem vertical automaticamente se necessário */
+}
+
+/* Personalização da barra de rolagem do Modal (Funciona em Chrome/Edge/Safari) */
+.modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-btn); /* Usa sua cor dourada ao passar o mouse */
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-body input, .modal-body select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-confirmar {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+}
+
+.btn-cancelar {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+}
+
+/* Classes utilitárias */
+.hide {
+    display: none !important;
+}
+
+.oculto {
+    display: none !important;
+}
+
+/* =========================================
+   ESTILOS ESPECÍFICOS DO MODAL DE EDIÇÃO
+   ========================================= */
+
+/* Footer dividido: Botão Esquerda e Grupo Direita */
+.modal-footer-split {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.grupo-botoes-direita {
+    display: flex;
+    gap: 10px;
+}
+
+/* Input Readonly */
+.input-readonly {
+    background: #e9e9e9 !important;
+    color: #555 !important;
+    cursor: not-allowed;
+}
+
+/* Botão Descartar Vermelho */
+.btn-descartar-red {
+    background-color: #8B0000;
+    color: white;
+    width: auto;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    transition: background-color 0.2s;
+}
+
+.btn-descartar-red:hover {
+    background-color: #ff0000;
+    filter: none;
+}
+
+/* Campo Observação */
+.label-obs {
+    margin-top: 10px;
+    color: var(--blue-dark);
+    font-weight: bold;
+    display: block;
+}
+
+.textarea-obs {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: inherit;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+/* Estados de Bloqueio (Livro Descartado) */
+.modal-bloqueado input,
+.modal-bloqueado select {
+    background-color: #f0f0f0 !important;
+    color: #999 !important;
+    cursor: not-allowed;
+    border-color: #ddd;
+}
+
+/* Exceção: Observação editável mesmo se modal bloqueado */
+.modal-bloqueado .textarea-obs {
+    background-color: #fff !important;
+    color: #333 !important;
+    border-color: var(--gold-btn);
+    cursor: text;
+}
