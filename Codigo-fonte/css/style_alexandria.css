@@ -1,21 +1,63 @@
 /* =========================================
-   VARIAVEIS DE CORES
+   VARIAVEIS E CORES (TEMA CLARO - PADRÃO)
    ========================================= */
 :root {
-    --bg-page: #EAEAEA;          /* Fundo cinza claro da página */
-    --blue-dark: #163445;        /* Azul escuro da lateral esquerda/nav */
-    --beige-card: #F2ECD9;       /* Bege do fundo central */
-    --beige-header: #DCCBA6;     /* Bege escuro do header da busca */
-    --beige-row-odd: #DCCBA6;    /* Linha ímpar */
-    --beige-row-even: #E8DUB6;   /* Linha par (fallback) */
-    --beige-row-even-hex: #E6D9BC; /* Linha par corrigida */
-    --gold-btn: #C49A50;         /* Dourado dos botões */
-    --text-dark: #333333;
-    --text-white: #FFFFFF;
-    --input-bg: #F0F0F0;
-    --border-radius-primary: 20px;
+    /* Cores de Identidade */
+    --blue-dark: #163445;
+    --gold-btn: #C49A50;
+    --gold-hover: #b08842;
+    
+    /* Layout e Fundos - Modo Claro */
+    --bg-page: #EAEAEA;
+    --bg-card: #F2ECD9;        /* Antigo beige-card */
+    --bg-sidebar: #163445;
+    --bg-header-input: #DCCBA6;
+    
+    /* Textos */
+    --text-primary: #333333;
+    --text-secondary: #555555;
+    --text-inverse: #FFFFFF;
+    
+    /* Tabelas (Zebra) - Modo Claro */
+    --row-odd: #DCCBA6;
+    --row-even: #E6D9BC;
+    
+    /* Elementos de UI */
+    --input-bg: #F9F9F9;
+    --border-radius-primary: 12px; /* Reduzi um pouco para ficar mais moderno */
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+    --transition-speed: 0.3s;
 }
 
+/* =========================================
+   VARIAVEIS DO DARK MODE
+   ========================================= */
+body.dark-mode {
+    /* Layout e Fundos - Modo Escuro */
+    --bg-page: #758f9dc5;        /* Fundo quase preto */
+    --bg-card: #566482b3;        /* Cinza escuro para cards */
+    --bg-sidebar: #0d212e;     /* Azul ainda mais escuro para diferenciar */
+    --bg-header-input: #0f2c3f;
+    
+    /* Textos */
+    --text-primary: #ffffff;   /* Branco gelo */
+    --text-secondary: #ffffff; /* Cinza claro */
+    --text-inverse: #ffffff;   /* Ajuste para contraste */
+    
+    /* Tabelas (Zebra) - Modo Escuro (Tons de cinza azulado) */
+    --row-odd: #0c2a42dc;
+    --row-even: #0c2a42dc;
+    
+    /* Elementos de UI */
+    --input-bg: #2d3e54;
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra mais forte no dark */
+
+}
+
+/* =========================================
+   RESET E BASE
+   ========================================= */
 * {
     margin: 0;
     padding: 0;
@@ -23,12 +65,28 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
     background-color: var(--bg-page);
-    color: var(--text-dark);
+    color: var(--text-primary);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Scrollbar Personalizada (Geral) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-page);
+}
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-btn);
 }
 
 /* =========================================
@@ -41,10 +99,12 @@ header {
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+    transition: background-color var(--transition-speed);
 }
 
 .logo {
     margin-bottom: 15px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 #logoimg {
@@ -52,7 +112,6 @@ header {
     height: auto;
 }
 
-/* Menu Azul */
 .menu {
     width: 100%;
     background-color: var(--blue-dark);
@@ -60,7 +119,7 @@ header {
     display: flex;
     justify-content: flex-start;
     padding-left: 5%;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-soft);
 }
 
 .navBar {
@@ -69,17 +128,34 @@ header {
 }
 
 .itenMenu {
-    color: var(--text-white);
+    color: #FFF; /* Sempre branco no menu azul */
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    font-weight: 500;
-    transition: opacity 0.3s;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    transition: color 0.3s, opacity 0.3s;
+    position: relative;
+}
+
+.itenMenu:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--gold-btn);
+    transition: width 0.3s;
 }
 
 .itenMenu:hover {
-    opacity: 0.8;
+    color: var(--gold-btn);
+    opacity: 1;
+}
+
+.itenMenu:hover:after {
+    width: 100%;
 }
 
 /* =========================================
@@ -88,39 +164,40 @@ header {
 main {
     display: flex;
     width: 100%;
-    flex: 1; /* Ocupa a altura restante */
+    flex: 1;
 }
 
-/* Container que segura as 3 colunas */
 .conteudoPrincipal {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-    align-items: stretch; /* Estica as colunas para terem a mesma altura */
+    align-items: stretch;
 }
 
 /* --- COLUNA 1: ESQUERDA (Cadastro) --- */
 section {
-    width: 320px; /* Largura fixa */
-    background-color: var(--blue-dark);
-    color: var(--text-white);
+    width: 320px;
+    background-color: var(--bg-sidebar);
+    color: #FFF; /* Texto sempre branco na sidebar */
     padding: 40px 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-shrink: 0; /* Impede encolhimento */
+    flex-shrink: 0;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1); /* Sombra lateral */
+    z-index: 2;
 }
 
 .tituloCadastroDeLivros {
-    font-size: 1.1rem;
-    font-weight: 400;
+    font-size: 1.2rem;
+    font-weight: 300;
     margin-bottom: 30px;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding-bottom: 15px;
     width: 100%;
     text-align: center;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 form.cadastroLivros {
@@ -130,74 +207,91 @@ form.cadastroLivros {
     align-items: center;
 }
 
-/* Estilo unificado para Input e Select */
+/* Inputs Refinados */
 form input,
 form select,
 .codigo input,
 .codigo select {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     margin-bottom: 15px;
-    border: none;
+    border: 1px solid transparent; /* Borda transparente para transição */
     border-radius: var(--border-radius-primary);
     background-color: var(--input-bg);
-    color: var(--text-dark);
-    text-align: center; /* Centraliza texto no input */
-    text-align-last: center; /* Centraliza texto no select */
-    font-size: 0.85rem;
+    color: var(--text-primary);
+    text-align: center;
+    text-align-last: center;
+    font-size: 0.9rem;
     outline: none;
-    appearance: none; /* Remove seta padrão feia do navegador */
-    -webkit-appearance: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
 }
 
-/* Pequeno hack para placeholder do input ficar centralizado visualmente */
+form input:focus,
+form select:focus,
+.codigo input:focus,
+.codigo select:focus {
+    background-color: var(--input-bg);
+    border-color: var(--gold-btn);
+    box-shadow: 0 0 0 3px rgba(196, 154, 80, 0.2); /* Glow dourado */
+    transform: translateY(-2px);
+}
+
 form input::placeholder {
-    color: #888;
+    color: var(--text-secondary);
     text-transform: uppercase;
     font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.7;
 }
 
 .codigo {
     width: 100%;
     margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255,255,255,0.2);
 }
 
 .codigo p {
-    font-size: 0.75rem;
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
     text-align: center;
-    color: #ccc;
+    color: rgba(255,255,255,0.7);
 }
 
-/* Botões Gerais */
+/* Botões Refinados */
 button {
     background-color: var(--gold-btn);
-    color: var(--text-dark);
+    color: #222; /* Texto escuro no dourado para contraste */
     font-weight: 700;
     border: none;
     border-radius: var(--border-radius-primary);
-    padding: 12px 20px;
+    padding: 14px 20px;
     cursor: pointer;
     text-transform: uppercase;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
     width: 100%;
     margin-top: 10px;
-    transition: filter 0.2s, transform 0.1s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
 }
 
 button:hover {
-    filter: brightness(1.1);
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
 button:active {
     transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 #cadastrarLivro {
-    margin-top: 30px;
-    padding: 15px;
-    font-size: 0.9rem;
+    margin-top: 25px;
+    font-size: 0.95rem;
+    background: linear-gradient(135deg, var(--gold-btn) 0%, #d4aa5e 100%);
 }
 
 /* --- COLUNA 2: CENTRO (Busca e Tabela) --- */
@@ -206,29 +300,30 @@ button:active {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    align-items: stretch; /* Estica os filhos */
+    align-items: stretch;
     background-color: var(--bg-page);
+    transition: background-color var(--transition-speed);
 }
 
-/* O "Cartão" da tabela */
 .boxTabela > div:last-child {
     width: 100%;
 }
 
 .barraPesquisar {
-    background-color: var(--beige-header);
+    background-color: var(--bg-header-input);
     width: 100%;
-    padding: 15px 25px;
+    padding: 20px 30px;
     border-radius: var(--border-radius-primary) var(--border-radius-primary) 0 0;
     display: flex;
     align-items: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
 
 .barraPesquisar input {
     background: transparent;
     border: none;
-    font-size: 1rem;
-    color: var(--text-dark);
+    font-size: 1.1rem;
+    color: var(--text-primary);
     width: 100%;
     outline: none;
     margin: 0;
@@ -237,71 +332,72 @@ button:active {
 }
 
 .barraPesquisar input::placeholder {
-    color: #444;
+    color: var(--text-secondary);
     text-align: left;
 }
 
-#iconePesquisar {
-    width: 20px;
-    margin-right: 15px;
-    opacity: 0.6;
-}
-
-/* Tabela e Wrapper do fundo bege */
+/* Tabela Estilizada */
 #tabelaLivros {
     width: 100%; 
     border-collapse: separate;
-    border-spacing: 0;
-    background-color: var(--beige-card);
-    border-radius: 0; 
+    border-spacing: 0 8px; /* Espaçamento entre as linhas (efeito card) */
+    background-color: var(--bg-card); /* Fundo da área da tabela */
     padding: 20px;
+    transition: background-color var(--transition-speed);
 }
 
 #tabelaLivros th, 
 #tabelaLivros td {
-    width: 25%; /* Divide colunas igualmente */
+    width: 25%;
 }
 
 #cabecaTablea tr th {
-    background-color: #FFFFFF;
-    color: var(--text-dark);
+    background-color: transparent;
+    color: var(--text-secondary);
     text-transform: uppercase;
-    font-size: 0.8rem;
-    padding: 15px;
+    font-size: 0.75rem;
+    padding: 10px 15px;
     text-align: center;
-    border-bottom: 5px solid var(--beige-card);
+    border: none;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
-/* Arredondamento do Header da Tabela */
-#cabecaTablea th:first-child { border-radius: 10px 0 0 10px; }
-#cabecaTablea th:last-child { border-radius: 0 10px 10px 0; }
-
-#corpoTabela tr {
-    font-size: 0.9rem;
+/* Linhas do Corpo (Efeito Card Flutuante) */
+#corpoTabela tr td {
+    padding: 18px 15px;
+    text-align: center;
+    color: var(--text-primary);
+    border: none;
+    transition: background-color var(--transition-speed), transform 0.2s;
 }
 
-/* Cores Alternadas (Zebra) */
+/* Cores das Linhas */
 #corpoTabela tr:nth-child(odd) td {
-    background-color: var(--beige-row-odd);
+    background-color: var(--row-odd);
 }
 
 #corpoTabela tr:nth-child(even) td {
-    background-color: var(--beige-row-even-hex);
+    background-color: var(--row-even);
 }
 
-#corpoTabela td {
-    padding: 12px;
-    text-align: center;
-    color: #333;
-    border-top: 5px solid var(--beige-card);
+/* Hover na Linha inteira */
+#corpoTabela tr:hover td {
+    filter: brightness(0.95); /* Escurece levemente ao passar o mouse */
+    cursor: default;
+}
+/* Correção para dark mode hover */
+body.dark-mode #corpoTabela tr:hover td {
+    filter: brightness(1.2); /* Clareia no dark mode */
 }
 
-/* Arredondamento das Linhas do Corpo */
+/* Arredondamento das Linhas (Cards) */
 #corpoTabela tr td:first-child { 
     border-radius: 10px 0 0 10px; 
     text-align: left; 
-    padding-left: 20px;
-    font-weight: bold;
+    padding-left: 25px;
+    font-weight: 600;
+    box-shadow: -4px 0 0 var(--gold-btn); /* Detalhe dourado na esquerda */
 }
 #corpoTabela tr td:last-child { 
     border-radius: 0 10px 10px 0; 
@@ -311,18 +407,15 @@ button:active {
 .sortable {
     cursor: pointer;
     user-select: none;
-    transition: background-color 0.2s;
+    transition: color 0.2s;
 }
-
 .sortable:hover {
-    background-color: #f0f0f0 !important;
-    color: var(--gold-btn);
+    color: var(--gold-btn) !important;
 }
 
-/* Link do Livro na Tabela */
+/* Link do Livro */
 .link-livro {
-    color: var(--blue-dark);
-    font-weight: bold;
+    color: var(--text-primary);
     text-decoration: none;
     cursor: pointer;
     transition: color 0.2s;
@@ -333,10 +426,10 @@ button:active {
     text-decoration: underline;
 }
 
-/* Título Descartado na Tabela */
 .titulo-descartado {
-    color: red !important;
+    color: #e74c3c !important; /* Vermelho mais suave */
     font-weight: bold;
+    text-decoration: line-through;
 }
 
 /* Footer da Tabela */
@@ -346,8 +439,9 @@ button:active {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: var(--beige-card);
+    background-color: var(--bg-card);
     border-radius: 0 0 var(--border-radius-primary) var(--border-radius-primary);
+    box-shadow: var(--shadow-soft);
 }
 
 #btnMostrarTodos {
@@ -356,6 +450,7 @@ button:active {
     background-color: var(--blue-dark);
     color: white;
     margin-top: 0;
+    border-radius: 30px; /* Pill shape */
 }
 
 #btnMostrarTodos:hover {
@@ -363,71 +458,85 @@ button:active {
 }
 
 .contador-texto {
-    margin-top: 10px; 
-    font-size: 0.8rem; 
-    color: #666;
+    margin-top: 15px; 
+    font-size: 0.85rem; 
+    color: var(--text-secondary);
+    font-style: italic;
 }
 
 /* --- COLUNA 3: DIREITA (Grupos) --- */
 aside.grupos {
     width: 280px;
-    background-color: #F8F8F8;
-    border-left: 1px solid #ddd;
+    background-color: var(--bg-page); /* Segue o fundo da página */
+    border-left: 1px solid rgba(0,0,0,0.05);
     flex-shrink: 0;
-    padding: 40px 20px;
+    padding: 40px 25px;
     display: flex;
     flex-direction: column;
 }
+body.dark-mode aside.grupos { background-color: var(--bg-sidebar); }
 
 aside h2 {
-    font-size: 1rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
     text-transform: uppercase;
     margin-bottom: 15px;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 5px;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid var(--gold-btn);
+    padding-bottom: 8px;
+    display: inline-block;
 }
 
 .listaGrupos ul, 
 .listaSubgrupos ul {
     list-style: none;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding-left: 5px;
 }
 
 .listaGrupos li,
 .listaSubgrupos li {
-    padding: 6px 0;
-    color: #555;
+    padding: 8px 10px;
+    color: var(--text-secondary);
     font-size: 0.9rem;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: all 0.2s;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .listaGrupos li:hover,
 .listaSubgrupos li:hover {
-    color: var(--gold-btn);
-    font-weight: bold;
+    background-color: rgba(0,0,0,0.05);
+    color: var(--blue-dark);
+    padding-left: 15px; /* Efeito de slide */
 }
 
-/* Botões Laterais */
+body.dark-mode .listaGrupos li:hover,
+body.dark-mode .listaSubgrupos li:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--gold-btn);
+}
+
+/* Botões de Ação Lateral */
 aside button {
     width: auto;
     background-color: transparent;
     border: 1px solid var(--gold-btn);
-    color: var(--text-dark);
+    color: var(--text-primary);
     font-size: 0.7rem;
     padding: 8px 15px;
-    margin-bottom: 25px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    margin-bottom: 30px;
+    border-radius: 20px;
 }
 
 aside button:hover {
     background-color: var(--gold-btn);
-    color: white;
+    color: #fff;
+    box-shadow: none;
+    transform: none;
 }
 
 /* Subgrupos */
@@ -437,45 +546,35 @@ aside button:hover {
     margin-bottom: 8px;
     font-size: 0.95rem;
     text-transform: capitalize;
+    font-weight: 700;
 }
+/* body.dark-mode .divSubGrupos h4 { color: var(--gold-btn); } */
 
-/* Itens da lista lateral */
-.item-lista-com-delete {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.item-clicavel {
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.item-clicavel:hover {
-    color: var(--gold-btn);
-    text-decoration: underline;
-}
-
-/* Botão Excluir (X) da lista */
+/* Botão Excluir (X) */
 .btn-excluir {
     background: transparent;
     border: none;
-    color: #ff4d4d;
+    color: #e74c3c;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     padding: 0 5px;
     transition: 0.2s;
-    width: auto; /* Override do botão genérico */
+    width: auto;
     box-shadow: none;
     margin-top: 0;
+    opacity: 0.5;
+}
+
+.listaGrupos li:hover .btn-excluir,
+.listaSubgrupos li:hover .btn-excluir {
+    opacity: 1;
 }
 
 .btn-excluir:hover {
-    color: #cc0000;
+    color: #c0392b;
     transform: scale(1.2);
-    filter: none; /* Override */
+    background: transparent;
 }
 
 /* =========================================
@@ -487,8 +586,10 @@ aside button:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.7); /* Mais escuro para foco */
+    backdrop-filter: blur(2px); /* Efeito de desfoque no fundo */
     z-index: 5;
+    transition: opacity 0.3s;
 }
 
 .modal {
@@ -496,170 +597,131 @@ aside button:hover {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
+    width: 450px;
     max-width: 90%;
-    background-color: #fff;
-    padding: 1.2rem;
-    border-radius: 10px;
+    background-color: var(--bg-page); /* Adapta ao tema */
+    padding: 2rem;
+    border-radius: 16px;
     z-index: 10;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
-    gap: 15px;
-
-    /* --- NOVAS PROPRIEDADES PARA SCROLL --- */
-    max-height: 90vh; /* Limita a altura do modal a 90% da altura da tela */
-    overflow-y: auto; /* Cria a barra de rolagem vertical automaticamente se necessário */
+    gap: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalFadeIn 0.3s ease-out;
 }
 
-/* Personalização da barra de rolagem do Modal (Funciona em Chrome/Edge/Safari) */
-.modal::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modal::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.modal::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
-}
-
-.modal::-webkit-scrollbar-thumb:hover {
-    background: var(--gold-btn); /* Usa sua cor dourada ao passar o mouse */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
 .modal-header h3 {
     margin: 0;
-    color: #333;
-    border-bottom: 1px solid #ddd;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--gold-btn);
     padding-bottom: 10px;
+    display: inline-block;
 }
 
 .modal-body {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
-.modal-body input, .modal-body select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.modal-body label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.modal-body input, .modal-body select, .textarea-obs {
+    padding: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+}
+
+body.dark-mode .modal-body input, 
+body.dark-mode .modal-body select,
+body.dark-mode .textarea-obs {
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 15px;
+    margin-top: 10px;
 }
 
+/* Botões do Modal */
 .btn-confirmar {
-    background-color: #28a745;
+    background-color: #27ae60;
     color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 8px;
     width: auto;
 }
+.btn-confirmar:hover { background-color: #219150; }
 
 .btn-cancelar {
-    background-color: #dc3545;
+    background-color: #e74c3c;
     color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 8px;
     width: auto;
 }
+.btn-cancelar:hover { background-color: #c0392b; }
 
-/* Classes utilitárias */
-.hide {
-    display: none !important;
-}
+/* Utilitários */
+.hide { display: none !important; }
+.oculto { display: none !important; }
 
-.oculto {
-    display: none !important;
-}
-
-/* =========================================
-   ESTILOS ESPECÍFICOS DO MODAL DE EDIÇÃO
-   ========================================= */
-
-/* Footer dividido: Botão Esquerda e Grupo Direita */
+/* Modal Edição Específico */
 .modal-footer-split {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
-
 .grupo-botoes-direita {
     display: flex;
     gap: 10px;
 }
-
-/* Input Readonly */
 .input-readonly {
-    background: #e9e9e9 !important;
-    color: #555 !important;
+    background: rgba(0,0,0,0.05) !important;
+    color: var(--text-secondary) !important;
     cursor: not-allowed;
+    border: 1px dashed #ccc !important;
 }
-
-/* Botão Descartar Vermelho */
 .btn-descartar-red {
-    background-color: #8B0000;
-    color: white;
+    background-color: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
     width: auto;
-    border: none;
-    border-radius: 5px;
     padding: 8px 15px;
-    cursor: pointer;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    transition: background-color 0.2s;
 }
-
 .btn-descartar-red:hover {
-    background-color: #ff0000;
-    filter: none;
+    background-color: #e74c3c;
+    color: white;
 }
 
-/* Campo Observação */
-.label-obs {
-    margin-top: 10px;
-    color: var(--blue-dark);
-    font-weight: bold;
-    display: block;
-}
-
-.textarea-obs {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    resize: vertical;
-    font-family: inherit;
-    margin-bottom: 10px;
-    background-color: #fff;
-}
-
-/* Estados de Bloqueio (Livro Descartado) */
+/* Bloqueado */
 .modal-bloqueado input,
 .modal-bloqueado select {
-    background-color: #f0f0f0 !important;
-    color: #999 !important;
-    cursor: not-allowed;
-    border-color: #ddd;
+    opacity: 0.6;
+    pointer-events: none;
+    background-color: var(--bg-page) !important;
 }
-
-/* Exceção: Observação editável mesmo se modal bloqueado */
 .modal-bloqueado .textarea-obs {
-    background-color: #fff !important;
-    color: #333 !important;
+    background-color: var(--input-bg) !important;
     border-color: var(--gold-btn);
     cursor: text;
+    pointer-events: auto;
 }

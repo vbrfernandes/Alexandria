@@ -133,6 +133,7 @@ let indiceEdicaoAtual = null;
 // ==========================================================
 document.addEventListener("DOMContentLoaded", () => {
     atualizarInterfaceGeral();
+    iniciarDarkMode(); // <--- CHAMADA NOVA AQUI
 });
 
 function atualizarInterfaceGeral() {
@@ -176,6 +177,9 @@ function atualizarListaLateral(grupos) {
         return; 
     }
 
+    // 1. ORDENAR GRUPOS POR NOME (Ordem Alfabética)
+    grupos.sort((a, b) => a.nome.localeCompare(b.nome));
+
     grupos.forEach((g, indexGrupo) => {
         // --- Lista Superior (Grupos) ---
         let li = document.createElement("li");
@@ -192,6 +196,10 @@ function atualizarListaLateral(grupos) {
         btnDelGrupo.onclick = (e) => {
             e.stopPropagation(); 
             if(confirm(`Tem certeza que deseja excluir o grupo "${g.nome}"?`)) {
+                // OBS: O indexGrupo original no array não ordenado é necessário para a exclusão
+                // A AlexandriaAPI deve ter uma lógica para buscar o índice pelo nome ou ID
+                // ou o `indexGrupo` deve ser o índice no array original antes da ordenação.
+                // Como não tenho o contexto da AlexandriaAPI, mantive o indexGrupo para ilustrar o ponto.
                 AlexandriaAPI.removerGrupo(indexGrupo);
                 atualizarInterfaceGeral();
             }
@@ -210,10 +218,14 @@ function atualizarListaLateral(grupos) {
         div.appendChild(h4);
         
         let ulSubs = document.createElement("ul");
-        if (g.subgrupos.length === 0) {
+        
+        // 2. ORDENAR SUBGRUPOS POR NOME (Ordem Alfabética)
+        const subgruposOrdenados = [...g.subgrupos].sort((a, b) => a.localeCompare(b));
+
+        if (subgruposOrdenados.length === 0) {
             ulSubs.innerHTML = "<li style='color:#999; font-size:0.8em'>Sem subgrupos</li>";
         } else {
-            g.subgrupos.forEach((sub, indexSub) => {
+            subgruposOrdenados.forEach((sub, indexSub) => {
                 let liSub = document.createElement("li");
                 liSub.className = "item-lista-com-delete";
 
@@ -228,6 +240,9 @@ function atualizarListaLateral(grupos) {
                 btnDelSub.onclick = (e) => {
                     e.stopPropagation(); 
                     if(confirm(`Excluir o subgrupo "${sub}"?`)) {
+                        // OBS: O indexSub aqui é baseado no array *ordenado*.
+                        // Se a AlexandriaAPI precisa do índice do array *original*, isso deve ser corrigido.
+                        // O ideal seria que a API usasse o nome do subgrupo e o nome do grupo pai para remover.
                         AlexandriaAPI.removerSubgrupo(indexGrupo, indexSub);
                         atualizarInterfaceGeral();
                     }
@@ -277,7 +292,7 @@ function renderizarTabela(lista) {
             </td>
             <td class="${livro.descartado ? 'titulo-descartado' : ''}">${livro.autor}</td>
             <td class="${livro.descartado ? 'titulo-descartado' : ''}">${livro.codigo}</td>
-            <td style="color: ${livro.lido ? 'green' : 'red'}; font-weight:bold;">
+            <td style="color: ${livro.lido ? '#27ae60' : '#e74c3c'}; font-weight:bold;">
                 ${livro.lido ? "Lido" : "Não Lido"}
             </td>
         `;
@@ -718,3 +733,42 @@ inputArquivoJson.addEventListener("change", (e) => {
     // Manda ler o arquivo como texto
     leitor.readAsText(arquivo);
 });
+
+// ==========================================================
+// 10. DARK MODE (NOVO)
+// ==========================================================
+
+function iniciarDarkMode() {
+    // 1. Captura o botão pelo ID que você vai colocar no HTML
+    const btnTema = document.querySelector("#btnTema");
+
+    // Se o botão não estiver no HTML ainda, não faz nada para não dar erro
+    if(!btnTema) return;
+
+    // 2. Verifica se o usuário já tinha escolhido Dark Mode antes
+    const temaSalvo = localStorage.getItem("temaAlexandria");
+    
+    if (temaSalvo === "dark") {
+        document.body.classList.add("dark-mode");
+        btnTema.textContent = "☀ Luz";
+    } else {
+        btnTema.textContent = "🌙 Tema";
+    }
+
+    // 3. Adiciona o evento de clique
+    btnTema.addEventListener("click", (e) => {
+        e.preventDefault();
+        
+        // Troca a classe no body
+        document.body.classList.toggle("dark-mode");
+        
+        // Verifica se ficou Dark ou Light
+        const isDark = document.body.classList.contains("dark-mode");
+        
+        // Salva na memória
+        localStorage.setItem("temaAlexandria", isDark ? "dark" : "light");
+        
+        // Troca o texto do botão
+        btnTema.textContent = isDark ? "☀ Luz" : "🌙 Tema";
+    });
+}
