@@ -725,3 +725,177 @@ body.dark-mode .textarea-obs {
     cursor: text;
     pointer-events: auto;
 }
+
+/* ==========================================================================
+   RESPONSIVIDADE (MEDIA QUERIES)
+   Copie e cole isso no final do seu arquivo CSS
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TABLETS E NOTEBOOKS PEQUENOS (max-width: 1024px)
+   Objetivo: Ajustar para telas onde as 3 colunas ficam apertadas.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+    
+    /* Muda o layout principal de linha para coluna */
+    .conteudoPrincipal {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* As colunas laterais agora ocupam 100% da largura */
+    section, 
+    aside.grupos {
+        width: 100%;
+        flex-direction: row; /* Tenta organizar itens internos lado a lado se possível */
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        box-shadow: none; /* Remove sombra lateral para integrar melhor no fluxo vertical */
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* Ajuste específico para o formulário de cadastro ocupar toda a largura */
+    form.cadastroLivros {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Divide os inputs em 2 colunas */
+        gap: 15px;
+    }
+
+    /* O campo de código e o botão de cadastrar ocupam a largura total do grid */
+    .codigo, 
+    #cadastrarLivro {
+        grid-column: span 2;
+        width: 100%;
+    }
+
+    /* Ajuste da área de Grupos para ficar mais compacta */
+    aside.grupos {
+        display: block; /* Volta ao comportamento padrão de bloco */
+    }
+
+    /* Ajuste da lista lateral para usar grid em telas médias */
+    .listaGrupos ul, .listaSubgrupos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   CELULARES (max-width: 768px)
+   Objetivo: Empilhar tudo, aumentar áreas de toque e ajustar tabelas.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 768px) {
+
+    /* --- GERAL --- */
+    main {
+        padding: 0 10px; /* Reduz padding lateral da página */
+    }
+
+    /* --- HEADER --- */
+    .menu {
+        padding-left: 0;
+        justify-content: center;
+    }
+    
+    .navBar {
+        gap: 15px;
+        font-size: 0.8rem;
+    }
+
+    #logoimg {
+        width: 150px; /* Logo um pouco menor */
+    }
+
+    /* --- FORMULÁRIOS (Mobile) --- */
+    form.cadastroLivros {
+        display: flex; /* Volta para flex (uma coluna) no celular */
+        flex-direction: column;
+    }
+
+    .codigo {
+        /* Empilha Volume, Grupo e Subgrupo verticalmente */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .codigo input, .codigo select {
+        margin-bottom: 0; /* Remove margem extra pois já tem gap */
+    }
+
+    section {
+        border-radius: 0; /* Remove bordas arredondadas em tela cheia */
+    }
+
+    /* --- TABELA (Mobile) --- */
+    .boxTabela {
+        padding: 15px; /* Menos espaçamento interno */
+        overflow-x: auto; /* Permite scroll horizontal na tabela se estourar */
+    }
+
+    /* Wrapper para garantir que a tabela scrolle horizontalmente sem quebrar o layout */
+    .boxTabela > div:nth-child(2) {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+    }
+
+    #tabelaLivros {
+        min-width: 600px; /* Força a tabela a ter um tamanho mínimo, ativando o scroll */
+    }
+
+    #tabelaLivros th, #tabelaLivros td {
+        padding: 10px 5px; /* Células mais compactas */
+        font-size: 0.85rem;
+    }
+
+    /* --- GRUPOS E LISTAS --- */
+    .listaGrupos ul, .listaSubgrupos {
+        display: block; /* Volta a ser lista vertical simples no celular */
+    }
+
+    /* --- MODAIS (Mobile) --- */
+    .modal {
+        width: 95%; /* Ocupa quase toda a tela */
+        padding: 1.5rem;
+        max-height: 85vh; /* Garante que caiba na altura */
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse; /* Botões empilhados, confirmar em cima */
+        gap: 10px;
+    }
+    
+    .btn-cancelar, .btn-confirmar, .btn-descartar-red {
+        width: 100%; /* Botões largura total para facilitar o toque */
+        text-align: center;
+    }
+
+    .modal-footer-split {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .grupo-botoes-direita {
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   TELAS MUITO PEQUENAS (max-width: 380px)
+   Ex: iPhone SE antigo, Galaxy Fold fechado
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 380px) {
+    .navBar {
+        flex-direction: column; /* Empilha o menu */
+        gap: 10px;
+        align-items: center;
+    }
+    
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.2rem; }
+}
